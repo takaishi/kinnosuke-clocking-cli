@@ -12,7 +12,6 @@ import (
 	"gopkg.in/headzoo/surf.v1"
 )
 
-const kinnosukeURL string = "https://www.4628.jp/"
 const ua string = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36"
 const clockingIDIn string = "1"
 const clockingIDOut string = "2"
@@ -31,6 +30,7 @@ type CLI struct {
 }
 
 func clockIn(clockingOut bool, showStatus bool) error {
+	kinnosukeURL := fmt.Sprintf("https://www.e4628.jp/%s", os.Getenv("KINNOSUKE_COMPANY_NAME"))
 	var clockingID string
 	if clockingOut {
 		clockingID = clockingIDOut
@@ -46,7 +46,6 @@ func clockIn(clockingOut bool, showStatus bool) error {
 	}
 
 	loginForm, _ := browser.Form("[id='form1']")
-	loginForm.Input("y_companycd", os.Getenv("KINNOSUKE_COMPANYCD"))
 	loginForm.Input("y_logincd", os.Getenv("KINNOSUKE_LOGINCD"))
 	loginForm.Input("password", os.Getenv("KINNOSUKE_PASSWORD"))
 	if err := loginForm.Submit(); err != nil {
